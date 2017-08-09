@@ -1,0 +1,28 @@
+- template:
+    src: "{{ template_dir }}/resolv.conf"
+    dest: /etc/resolv.conf
+    owner: root
+    group: root
+    mode: 644
+- yum:
+    name: openvswitch
+    state: present
+- template:
+    src: "{{ template_dir }}/ifcfg-{{ item.key }}"
+    dest: "{{ conf_dir }}/ifcfg-{{ item.value }}"
+    owner: root
+    group: root
+    mode: 644
+  with_dict:
+    external_bridge: "{{ external_bridge }}"
+    external_nic: "{{ external_nic }}"
+    internal_nic: "{{ internal_nic }}"
+  notify:
+    - restart OS
+    - wait for OS rebooted
+- systemd:
+    name: NetworkManager
+    enabled: no
+  notify:
+    - restart OS
+    - wait for OS rebooted

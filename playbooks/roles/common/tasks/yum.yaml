@@ -1,0 +1,25 @@
+- lineinfile:
+    path: /etc/yum.conf
+    regexp: '^proxy='
+    state: absent
+  when: http_proxy != ""
+  changed_when: false
+- lineinfile:
+    path: /etc/yum.conf
+    line: "proxy={{ http_proxy }}"
+  when: http_proxy != ""
+  changed_when: false
+- yum_repository:
+    file: "{{ item.file }}"
+    name: "{{ item.name }}"
+    description: "{{ item.name }}"
+    baseurl: "{{ item.baseurl }}"
+    enabled: "{{ item.enabled }}"
+    gpgcheck: "{{ item.gpgcheck }}"
+  with_items: "{{ yum_repositories }}"
+- yum:
+    name: "{{ item }}"
+  with_items: "{{ common_packages }}"
+- yum:
+    name: "*"
+    state: latest

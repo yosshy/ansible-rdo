@@ -1,0 +1,8 @@
+- name: restart OS
+  shell: sleep 2; /sbin/reboot
+  async: 1
+  poll: 0
+  ignore_errors: yes
+- name: wait for OS rebooted
+  wait_for_connection:
+    delay: 4

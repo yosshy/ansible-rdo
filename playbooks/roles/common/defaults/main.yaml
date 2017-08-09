@@ -1,0 +1,5 @@
+common_packages:
+- open-vm-tools
+- psmisc
+- deltarpm
+yum_repositories: []

@@ -1,0 +1,21 @@
+- file:
+    path: .ssh
+    mode: 0700
+    state: directory
+- authorized_key:
+    user: "{{ ansible_ssh_user }}"
+    state: present
+    key: "{{ lookup('file', item) }}"
+  with_items:
+  - "{{ home_dir }}/.ssh/id_rsa.pub"
+  - "{{ ssh_key_dir }}/id_rsa.pub"
+- copy:
+    src: "{{ ssh_key_dir }}/{{ item }}"
+    dest: ".ssh/{{ item }}"
+    mode: 0400
+    owner: root
+    group: root
+  with_items:
+  - id_rsa
+  - id_rsa.pub
+  - config
