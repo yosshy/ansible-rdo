@@ -1,0 +1,36 @@
+#!/usr/bin/python
+
+import os
+import os.path
+import pprint
+import re
+import sys
+
+RE = re.compile(r"{{ *(.*?) *}}")
+VARS = {}
+EXCLUDE = (".git", os.path.basename(sys.argv[0]))
+
+
+def find_vars(filename):
+    with open(filename) as f:
+        for line in f.readlines():
+            for m in RE.finditer(line):
+                for var in m.groups():
+                    VARS[var] = VARS.get(var, 0) + 1
+
+
+def main():
+    #for filename in sys.argv[1:]:
+    #    find_vars(filename)
+    for root, dirs, files in os.walk(sys.argv[1]):
+        for filename in files:
+            if filename in EXCLUDE:
+                continue
+            find_vars(os.path.join(root, filename))
+    for var in sorted(VARS.keys()):
+        print(var, VARS[var])
+
+
+
+if __name__ == '__main__':
+    main()
