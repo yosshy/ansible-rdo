@@ -1,0 +1,6 @@
+DEVICE={{ internal_nic }}
+IPADDR={{ internal_ip }}
+NETMASK=255.255.255.0
+TYPE=Ethernet
+ONBOOT=yes
+BOOTPROTO=none

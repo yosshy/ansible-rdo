@@ -1,0 +1,9 @@
+DEVICE={{ external_bridge }}
+IPADDR={{ external_ip }}
+GATEWAY={{ gateway_ip }}
+DNS1={{ dns_ip }}
+NETMASK=255.255.255.0
+ONBOOT=yes
+DEVICETYPE=ovs
+TYPE=OVSBridge
+OVSBOOTPROTO=none

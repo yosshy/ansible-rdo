@@ -1,0 +1,5 @@
+DEVICE={{ external_nic }}
+OVS_BRIDGE={{ external_bridge }}
+ONBOOT=yes
+TYPE=OVSPort
+DEVICETYPE=ovs
